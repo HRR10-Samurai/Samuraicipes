@@ -28,11 +28,13 @@ angular.module('AuthFactory', [])
 
   var googleAuth = function (user) {
     return $http({
-      method: 'GET',
-      url: '/auth/google'
+      method: 'POST',
+      url: 'api/users/auth/google',
+      data: user
     })
     .then(function (resp) {
       console.log(resp);
+      return resp;
     });
   };
 
