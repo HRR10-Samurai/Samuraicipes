@@ -26,14 +26,22 @@ module.exports = function(app, passport) {
   //  * Saves new user to DB if successful
    
 
-  app.get('/auth/google', 
-    passport.authenticate('google', {scope: ['email', 'profile']})
-  );
+  app.route('/auth/google')
+    .post( passport.authenticate('google', {scope: ['email', 'profile']}))
+    .get( passport.authenticate('google', {scope: ['email', 'profile']}));
 
 
   /**
    * Not implemented
    */
-  app.route('/auth/google/callback')
-    .get(UserController.googleCallback);
+
+  app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/');
+    });
+
+   app.route('/auth/google/callback')
+     .post(UserController.googleCallback);
 };

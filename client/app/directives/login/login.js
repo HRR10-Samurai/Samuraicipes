@@ -62,6 +62,22 @@ angular.module('recipes.login', [])
         });
     };
 
+    $scope.googleAuth = function() {
+      Auth.googleAuth($scope.user)
+        .then(function(resp) {
+          console.log(resp);
+          if (resp.data.token) {
+            $window.localStorage.setItem('spartanShield', resp.data.token);
+            $rootScope.$broadcast('userAction');
+            $scope.close();
+          } else {
+            if (resp.data.err) {
+              $scope.message = resp.data.err;
+            }
+          }
+        });
+    };
+
     $scope.signup = function() {
       Auth.signup($scope.user)
         .then(function(resp) {

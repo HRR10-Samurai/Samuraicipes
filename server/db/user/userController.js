@@ -121,8 +121,9 @@ exports.googleCallback = function(req, res, next) {
   // grab the token in the header if any
   // then decode the token, which we end up being the user object
   // check to see if that user exists in the database
-  console.log(req.query.code.slice(2));
-  var token = req.query.code.slice(2);
+  var token = req.headers['x-access-token'];
+  //console.log(req.query.code.slice(2));
+  //var token = req.query.code;
   if (!token) {
     next(new Error('No token'));
   } else {
